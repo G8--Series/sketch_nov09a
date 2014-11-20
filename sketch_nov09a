@@ -6,6 +6,10 @@ int mediaruido = 0;
 int contmedd = 0;
 int conta = 0;
 int MEDICION[50]={};
+int AS[50]={};
+int contAS=0;
+int dEnvio=0;
+int enviar;
 
 int sample;                       //the value read from microphone each time
 long signal;                      //the reading once you have removed DC offset
@@ -43,6 +47,7 @@ void loop() {
     if(mediaruido<0){mediaruido=(mediaruido*-1);}
     MEDICION [conta, mediaruido]; //Guarda el dato en un Array 
     conta++;                      //Aumenta contador del Array para avanzar una posición
+    AS [conta,mediaruido];
     Serial.println(mediaruido);  //Imprime el dato para que el usuario lo vea
     contruidoextremo=0;
     contmedd=0;
@@ -52,7 +57,15 @@ void loop() {
     digitalWrite(ledPin, LOW);                         //if it isn't turn the LED off
     //Serial.println("Niveles de ruido normales" );
     //Serial.println(runningAverage);
-  }
-   //Serial.println(runningAverage);                  //print the value so you can check it
- 
+    }
+    while(AS[contAS>0]){
+    dEnvio=dEnvio+AS[contAS];
+    contAS++;
+    }
+    enviar=0;
+    dEnvio=(dEnvio/contAS);
+    enviar=dEnvio+enviar;
+    contAS=0; 
+    dEnvio=0; 
+       
 }
